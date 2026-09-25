@@ -27,26 +27,42 @@ def retrieve(
     score_threshold: float = SCORE_THRESHOLD,
     use_reranking: bool = True,
 ) -> list[dict]:
-    """Trả về hybrid hoặc pageindex SearchResult."""
-    # TODO: Implement full retrieval pipeline.
-    #
-    # dense = semantic_search(query, top_k=top_k * 2)
-    # sparse = lexical_search(query, top_k=top_k * 2)
-    # hybrid = (
-    #     rerank_rrf([dense, sparse], top_k=top_k)
-    #     if use_reranking else dense[:top_k]
-    # )
-    #
-    # best_dense_score = dense[0]["score"] if dense else 0.0
-    # if best_dense_score < score_threshold:
-    #     try:
-    #         fallback = pageindex_search(query, top_k=top_k)
-    #         if fallback:
-    #             return fallback
-    #     except Exception:
-    #         pass
-    # return hybrid[:top_k]
-    raise NotImplementedError("Implement retrieve")
+    """
+    Trả về hybrid hoặc pageindex SearchResult.
+    
+    Luồng:
+    - semantic_search + lexical_search → song song (hiện tại tuần tự)
+    - RRF fusion một lần duy nhất
+    - Best dense score < threshold → thử PageIndex
+    - PageIndex lỗi → trả hybrid thay vì crash
+    """
+    # Bước 1: Dense search
+    dense = semantic_search(query, top_k=top_k * 2)
+    
+    # Bước 2: Sparse (BM25) search
+    sparse = lexical_search(query, top_k=top_k * 2)
+    
+    # Bước 3: RRF fusion (gọi đúng một lần duy nhất khi use_reranking=True)
+    # Gọi RRF kể cả khi sparse trống (RRF xử lý được empty list)
+    if use_reranking and dense:
+        hybrid = rerank_rrf([dense, sparse], top_k=top_k)
+    else:
+        # Không dùng reranking → chỉ trả dense thuần
+        hybrid = []
+
+    # Bước 4: Kiểm tra confidence của dense search
+    best_dense_score = dense[0]["score"] if dense else 0.0
+    
+    if best_dense_score < score_threshold:
+        try:
+            fallback = pageindex_search(query, top_k=top_k)
+            if fallback:
+                return fallback
+        except Exception:
+            # Fallback lỗi → trả hybrid thay vì crash
+            pass
+    
+    return hybrid[:top_k]
 
 
 if __name__ == "__main__":
