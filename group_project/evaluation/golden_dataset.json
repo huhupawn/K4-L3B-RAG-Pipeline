@@ -1,0 +1,77 @@
+[
+    {
+        "question": "Điều kiện để cá nhân được kinh doanh dịch vụ tư vấn pháp luật theo Nghị định 55/2026 là gì?",
+        "expected_answer": "Cá nhân phải có chứng chỉ hành nghề luật sư hoặc có bằng cử nhân luật và đã qua đào tạo nghiệp vụ tư vấn pháp luật.",
+        "expected_context": "Nghị định 55/2026/NĐ-CP về tư vấn pháp luật"
+    },
+    {
+        "question": "Mức thuế thu nhập cá nhân đối với thu nhập từ kinh doanh bao gồm những bậc nào?",
+        "expected_answer": "Mức thuế suất từ 5% đến 35% tùy theo thu nhập tính thuế hàng tháng, chia theo các bậc từ 1,5 triệu đến trên 100 triệu đồng.",
+        "expected_context": "Thông tư 111/2013/TT-BTC và các văn bản sửa đổi"
+    },
+    {
+        "question": "Quy định về thời hạn nộp hồ sơ khai thuế thu nhập cá nhân từ kinh doanh là khi nào?",
+        "expected_answer": "Chậm nhất là ngày cuối cùng của tháng phát sinh thu nhập chịu thuế, hoặc theo quý tùy theo hình thức khai thuế được áp dụng.",
+        "expected_context": "Luật Quản lý thuế 2019"
+    },
+    {
+        "question": "Đối tượng nào được miễn thuế thu nhập cá nhân từ kinh doanh?",
+        "expected_answer": "Đối tượng được miễn thuế bao gồm người có thu nhập từ nông nghiệp, lâm nghiệp, ngư nghiệp không thường xuyên và một số đối tượng đặc biệt theo quy định.",
+        "expected_context": "Luật Thuế thu nhập cá nhân 2007 và văn bản sửa đổi"
+    },
+    {
+        "question": "Hồ sơ khai thuế thu nhập cá nhân từ kinh doanh cần những giấy tờ gì?",
+        "expected_answer": "Tờ khai thuế theo mẫu quy định, bảng kê thu nhập và các chứng từ hợp lệ làm căn cứ giảm trừ.",
+        "expected_context": "Thông tư 80/2021/TT-BTC"
+    },
+    {
+        "question": "Mức phạt khi nộp hồ sơ khai thuế quá hạn đối với thuế thu nhập cá nhân là bao nhiêu?",
+        "expected_answer": "Phạt từ 2 triệu đến 50 triệu đồng tùy theo thời gian quá hạn và số thuế phải nộp.",
+        "expected_context": "Nghị định 125/2020/NĐ-CP về xử phạt vi phạm hành chính"
+    },
+    {
+        "question": "Cách tính thuế thu nhập cá nhân từ kinh doanh đối với cá nhân không có người phụ thuộc?",
+        "expected_answer": "Thu nhập tính thuế = Thu nhập chịu thuế - 11 triệu đồng/tháng (giảm trừ bản thân) - các khoản giảm trừ khác. Thuế phải nộp = Thu nhập tính thuế × Thuế suất.",
+        "expected_context": "Luật Thuế thu nhập cá nhân 2007"
+    },
+    {
+        "question": "Quy định về hóa đơn điện tử trong kinh doanh có hiệu lực từ khi nào?",
+        "expected_answer": "Theo Nghị định 123/2020/NĐ-CP, hóa đơn điện tử bắt buộc áp dụng từ ngày 01/07/2022 đối với doanh nghiệp và từ ngày 01/01/2023 đối với hộ kinh doanh.",
+        "expected_context": "Nghị định 123/2020/NĐ-CP về hóa đơn, chứng từ"
+    },
+    {
+        "question": "Điều kiện để hộ kinh doanh được xác định là cá nhân kinh doanh thuế khoán?",
+        "expected_answer": "Có doanh thu kinh doanh trong năm dưới mức ngưỡng doanh thu chịu thuế quy định và không thuộc trường hợp phải nộp thuế theo phương pháp kê khai.",
+        "expected_context": "Thông tư 40/2021/TT-BTC"
+    },
+    {
+        "question": "Thuế suất thuế thu nhập cá nhân đối với cá nhân kinh doanh có thu nhập từ 1,5 triệu đến 3 triệu đồng/tháng là bao nhiêu?",
+        "expected_answer": "Thuế suất 5% đối với phần thu nhập trong bậc 1 (từ 1,5 triệu đến 3 triệu đồng/tháng).",
+        "expected_context": "Biểu thuế lũy tiến từng phần theo Luật Thuế TNCN"
+    },
+    {
+        "question": "Cá nhân kinh doanh có được khấu trừ chi phí thuế không? Những chi phí nào được khấu trừ?",
+        "expected_answer": "Được khấu trừ các khoản chi phí hợp lý liên quan đến hoạt động kinh doanh như chi phí nguyên vật liệu, nhân công, khấu hao tài sản cố định, và các chi phí hợp lệ khác có hóa đơn, chứng từ.",
+        "expected_context": "Luật Thuế thu nhập cá nhân và hướng dẫn thực hiện"
+    },
+    {
+        "question": "Thời hạn nộp thuế thu nhập cá nhân từ kinh doanh theo quý là khi nào?",
+        "expected_answer": "Chậm nhất là ngày cuối cùng của tháng đầu tiên của quý tiếp theo quý phát sinh nghĩa vụ thuế.",
+        "expected_context": "Luật Quản lý thuế 2019"
+    },
+    {
+        "question": "Mức thuế suất khoán đối với cá nhân kinh doanh không thường xuyên là bao nhiêu?",
+        "expected_answer": "Mức thuế suất khoán là 1,5% đối với thu nhập tính thuế từ kinh doanh của cá nhân không thường xuyên.",
+        "expected_context": "Thông tư 40/2021/TT-BTC"
+    },
+    {
+        "question": "Điều kiện để cá nhân được hưởng giảm trừ thuế thu nhập cá nhân cho người phụ thuộc?",
+        "expected_answer": "Người phụ thuộc phải đăng ký với cơ quan thuế, không có thu nhập hoặc có thu nhập không quá mức quy định, và cá nhân phải có nghĩa vụ nuôi dưỡng.",
+        "expected_context": "Luật Thuế thu nhập cá nhân 2007 và các văn bản sửa đổi"
+    },
+    {
+        "question": "Hành vi nào bị coi là trốn thuế thu nhập cá nhân và bị xử lý như thế nào?",
+        "expected_answer": "Hành vi trốn thuế bao gồm khai man, gian lận, sử dụng hồ sơ giả để khấu trừ thuế. Bị xử phạt từ 1 đến 3 lần số thuế trốn, đồng thời có thể bị truy cứu trách nhiệm hình sự.",
+        "expected_context": "Luật Quản lý thuế 2019 và Nghị định 125/2020/NĐ-CP"
+    }
+]
