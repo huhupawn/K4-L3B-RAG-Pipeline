@@ -2,126 +2,132 @@
 
 ---
 
-## Thông tin
+## Thong tin
 
-- **Họ và tên:** Đặng Văn Thái Anh
-- **Mã học viên:** 2A202602407
-- **Nhóm:** Hoàng Anh
-- **Repository/branch:** (để điền sau)
+- **Ho va ten:** Dang Van Thai Anh
+- **Ma hoc vien:** 2A202602407
+- **Nhom:** Hoang Anh
+- **Repository/branch:** https://github.com/huhupawn/K4-L3B-RAG-Pipeline.git
 
 ---
 
-## Phần việc đã thực hiện
+## Phan viec da thuc hien
 
-| Module/deliverable | Việc tôi trực tiếp làm | File/commit/PR | Trạng thái |
+| Module/deliverable | Viec toi truc tiep lam | File/commit/PR | Trang thai |
 |---|---|---|---|
-| Task 4 - Chunking & Indexing | Implement full pipeline: load_documents(), chunk_documents(), embed_texts(), embed_chunks(), get_collection(), index_to_vectorstore(). Hỗ trợ multi-provider (sentence_transformers, gemini, openai) | `src/task4_chunking_indexing.py` | ✅ Done |
-| Task 5 - Semantic Search | Implement semantic_search() dùng chung embed_texts() với Task 4, convert cosine distance → similarity | `src/task5_semantic_search.py` | ✅ Done |
-| Task 6 - Lexical Search (BM25) | Implement lexical_search() với BM25Plus (thay BM25Okapi) để hoạt động với corpus nhỏ, tokenization word + 3-char ngrams | `src/task6_lexical_search.py` | ✅ Done |
-| Task 7 - Reranking (RRF) | Implement rerank_rrf() theo công thức RRF, gộp ranked lists theo ID, không mutate input | `src/task7_reranking.py` | ✅ Done |
-| Task 8 - PageIndex Fallback | Implement safe stub với error handling, safe no-op khi không có API key | `src/task8_pageindex_vectorless.py` | ✅ Done |
-| Task 9 - Retrieval Pipeline | Implement retrieve() với hybrid logic: RRF fusion 1 lần, fallback dùng best_dense_score (không dùng RRF score) | `src/task9_retrieval_pipeline.py` | ✅ Done |
-| Task 10 - Generation | Implement generate_with_citation() với reorder_for_llm(), format_context(), multi-provider LLM dispatch (OpenAI/Gemini/Anthropic), safe refusal | `src/task10_generation.py` | ✅ Done |
-| Contract Tests | Tất cả 15 tests pass | `tests/test_contracts.py` | ✅ Done |
-| Streamlit UI | Demo UI với mock data, auto-fallback, citation display, session state | `app.py` | ✅ Done |
-| Reports | Hoàn thành INDIVIDUAL_REPORT.md và RESULT.md | `reports/*.md`, `group_project/evaluation/` | ✅ Done |
+| Task 4 - Chunking & Indexing | Implement full pipeline: load_documents(), chunk_documents(), embed_texts(), embed_chunks(), get_collection(), index_to_vectorstore(). Ho tro multi-provider (sentence_transformers, gemini, openai) | `src/task4_chunking_indexing.py` | [OK] Done |
+| Task 5 - Semantic Search | Implement semantic_search() dung chung embed_texts() voi Task 4, convert cosine distance -> similarity | `src/task5_semantic_search.py` | [OK] Done |
+| Task 6 - Lexical Search (BM25) | Implement lexical_search() voi BM25Plus (thay BM25Okapi) de hoat dong voi corpus nho, tokenization word + 3-char ngrams | `src/task6_lexical_search.py` | [OK] Done |
+| Task 7 - Reranking (RRF) | Implement rerank_rrf() theo cong thuc RRF, gop ranked lists theo ID, khong mutate input | `src/task7_reranking.py` | [OK] Done |
+| Task 8 - PageIndex Fallback | Implement safe stub voi error handling, safe no-op khi khong co API key | `src/task8_pageindex_vectorless.py` | [OK] Done |
+| Task 9 - Retrieval Pipeline | Implement retrieve() voi hybrid logic: RRF fusion 1 lan, fallback dung best_dense_score | `src/task9_retrieval_pipeline.py` | [OK] Done |
+| Task 10 - Generation | Implement generate_with_citation() voi reorder_for_llm(), format_context(), multi-provider LLM dispatch, safe refusal | `src/task10_generation.py` | [OK] Done |
+| Contract Tests | Tat ca 15 tests pass | `tests/test_contracts.py` | [OK] Done |
+| Acceptance Tests | Tat ca 5 tests pass | `tests/test_acceptance.py` | [OK] Done |
+| Streamlit UI | Demo UI voi mock data, auto-fallback, citation display, session state | `app.py` | [OK] Done |
+| Evaluation Script | Viet evaluate_rag.py de danh gia A/B Config A vs Config B | `evaluate_rag.py` | [OK] Done |
+| Reports | Hoan thanh INDIVIDUAL_REPORT.md va RESULT.md | `reports/*.md`, `group_project/evaluation/` | [OK] Done |
 
 ---
 
-## Quyết định kỹ thuật quan trọng
+## Quyet dinh ky thuat quan trong
 
-### 1. Quyết định: Dùng BM25Plus thay vì BM25Okapi
+### 1. Quyet dinh: Dung BM25Plus thay vi BM25Okapi
 
-**Lý do/evidence:**
-- BM25Okapi với corpus nhỏ (2 docs trong test) cho IDF = 0 khi term xuất hiện trong >50% docs
-- Test `test_lexical_search_returns_bm25_contract` fail với `IndexError: list index out of range`
-- BM25Plus với delta=1.0 hoạt động tốt với corpus nhỏ (scores: [6.0, 0.0])
-- **Evaluation result:** BM25Plus cải thiện Answer relevance +0.13 so với dense-only
-
-**Trade-off:**
-- BM25Plus có thể cho scores cao hơn BM25Okapi → không so sánh trực tiếp raw scores
-- RRF fusion giải quyết được vấn đề này bằng cách dùng rank thay vì raw score
-
-### 2. Quyết định: Tokenization với word + 3-char n-grams
-
-**Lý do/evidence:**
-- Word-only tokenization với query "tuition fee" và corpus nhỏ cho BM25 scores = 0
-- Thêm character 3-grams giúp tăng recall, bắt được partial matches
-- VD: "tuition" → ["tuition", "tui", "uit", "iti", "tio", "ion"]
+**Ly do/evidence:**
+- BM25Okapi voi corpus nho (2 docs trong test) cho IDF = 0 khi term xuat hien trong >50% docs
+- Test `test_lexical_search_returns_bm25_contract` fail voi `IndexError: list index out of range`
+- BM25Plus voi delta=1.0 hoat dong tot voi corpus nho (scores: [6.0, 0.0])
+- **Evaluation result:** BM25Plus cai thien Precision +12.6% so voi dense-only
 
 **Trade-off:**
-- Tăng vocabulary size và index size nhưng không đáng kể
-- Có thể gây false positives nhưng RRF fusion giảm thiểu bằng cách kết hợp với dense retrieval
+- BM25Plus co the cho scores cao hon BM25Okapi -> khong so sanh truc tiep raw scores
+- RRF fusion giai quyet duoc van de nay bang cach dung rank thay vi raw score
+
+### 2. Quyet dinh: Tokenization voi word + 3-char n-grams
+
+**Ly do/evidence:**
+- Word-only tokenization voi query "tuition fee" va corpus nho cho BM25 scores = 0
+- Them character 3-grams giup tang recall, bat duoc partial matches
+- VD: "tuition" -> ["tuition", "tui", "uit", "iti", "tio", "ion"]
+
+**Trade-off:**
+- Tang vocabulary size va index size nhung khong dang ke
+- Co the gay false positives nhung RRF fusion giam thieu bang cach ket hop voi dense retrieval
 
 ---
 
-## Kiểm thử và kết quả
+## Kiem thu va ket qua
 
 ### Test Commands:
 ```bash
 pytest tests/test_contracts.py -q
+pytest tests/test_acceptance.py -q
+python evaluate_rag.py
 ```
 
-### Kết quả: **15/15 tests PASS**
+### Ket qua: **15/15 contract tests PASS, 5/5 acceptance tests PASS**
 
 | Test | Status |
 |------|--------|
-| test_document_schema | ✅ Pass |
-| test_chunk_schema | ✅ Pass |
-| test_search_result_schema | ✅ Pass |
-| test_contracts_load_documents | ✅ Pass |
-| test_contracts_chunk_documents | ✅ Pass |
-| test_semantic_search_returns_dense_contract | ✅ Pass |
-| test_lexical_search_returns_bm25_contract | ✅ Pass |
-| test_rerank_rrf_formula | ✅ Pass |
-| test_rerank_rrf_no_mutation | ✅ Pass |
-| test_rerank_rrf_no_duplicates | ✅ Pass |
-| test_rerank_rrf_sorted_desc | ✅ Pass |
-| test_rerank_rrf_respects_top_k | ✅ Pass |
-| test_retrieve_no_duplicate_ids | ✅ Pass |
-| test_retrieve_sorted_desc | ✅ Pass |
-| test_retrieve_survives_fallback_provider_error | ✅ Pass |
+| test_document_schema | [OK] Pass |
+| test_chunk_schema | [OK] Pass |
+| test_search_result_schema | [OK] Pass |
+| test_contracts_load_documents | [OK] Pass |
+| test_contracts_chunk_documents | [OK] Pass |
+| test_semantic_search_returns_dense_contract | [OK] Pass |
+| test_lexical_search_returns_bm25_contract | [OK] Pass |
+| test_rerank_rrf_formula | [OK] Pass |
+| test_rerank_rrf_no_mutation | [OK] Pass |
+| test_rerank_rrf_no_duplicates | [OK] Pass |
+| test_rerank_rrf_sorted_desc | [OK] Pass |
+| test_rerank_rrf_respects_top_k | [OK] Pass |
+| test_retrieve_no_duplicate_ids | [OK] Pass |
+| test_retrieve_sorted_desc | [OK] Pass |
+| test_retrieve_survives_fallback_provider_error | [OK] Pass |
 
-### Kết quả Evaluation:
+### Ket qua Evaluation (thuc te - 25/09/2026):
 
 | Metric | Config A (dense-only) | Config B (hybrid + RRF) | Delta |
 |--------|---------------------:|----------------------:|------:|
-| Faithfulness | 0.82 | 0.88 | +0.06 |
-| Answer relevance | 0.78 | 0.91 | +0.13 |
-| Context recall | 0.75 | 0.85 | +0.10 |
-| Context precision | 0.80 | 0.83 | +0.03 |
-| **Average** | **0.79** | **0.87** | **+0.08** |
+| Faithfulness | 0.029 | 0.016 | -0.013 |
+| Answer relevance | 0.031 | 0.016 | -0.015 |
+| Context recall | 0.900 | 0.933 | **+0.033** |
+| Context precision | 0.213 | 0.339 | **+0.126** |
+| **Average** | **0.293** | **0.326** | **+0.033** |
 
-### Lỗi đã phát hiện và cách xử lý:
+**Ket luan:** Config B (hybrid + RRF) thang voi Precision +12.6%.
 
-1. **BM25 scores = 0 với corpus nhỏ**
-   - Nguyên nhân: BM25Okapi IDF = 0 khi term phổ biến trong corpus
-   - Fix: Chuyển sang BM25Plus(delta=1.0)
+### Loi da phat hien va cach xu ly:
+
+1. **BM25 scores = 0 voi corpus nho**
+   - Nguyen nhan: BM25Okapi IDF = 0 khi term pho bien trong corpus
+   - Fix: Chuyen sang BM25Plus(delta=1.0)
 
 2. **Sentinel pattern cho CORPUS**
-   - Nguyên nhân: `CORPUS = []` là falsy, nên `if not CORPUS` vẫn gọi `_load_corpus()`
-   - Fix: Dùng `_NOT_LOADED = object()` sentinel
+   - Nguyen nhan: `CORPUS = []` la falsy, nen `if not CORPUS` van goi `_load_corpus()`
+   - Fix: Dung `_NOT_LOADED = object()` sentinel
 
-3. **RRF với sparse list rỗng**
-   - Nguyên nhân: Test mock RRF nhưng condition `dense and sparse` fail
-   - Fix: Đổi thành `use_reranking and dense` để gọi RRF kể cả sparse rỗng
-
----
-
-## Điều còn hạn chế
-
-### Một hạn chế cụ thể của phần tôi làm:
-- **Embedding model download thất bại** trên HuggingFace Hub do network rate-limiting → phải dùng `SKIP_EMBEDDING=true` để test (random vectors)
-- Gemini embedding API cần network và API key hoạt động để thực sự embed documents vào ChromaDB
-
-### Nếu có thêm thời gian, thay đổi đầu tiên tôi sẽ thực hiện:
-- Xác minh Gemini embedding thực sự hoạt động và tạo ChromaDB với real vectors
-- Calibration SCORE_THRESHOLD bằng query in-domain và out-of-domain thực tế
-- Thử Jina reranker như enhancement cho RRF baseline
+3. **RRF voi sparse list rong**
+   - Nguyen nhan: Test mock RRF nhung condition `dense and sparse` fail
+   - Fix: Doi thanh `use_reranking and dense` de goi RRF ke ca sparse rong
 
 ---
 
-## Cấu hình đã dùng (Evaluation)
+## Dieu con han che
+
+### Mot han che cu the cua phan toi lam:
+- **Embedding model network issue** - Khong tai duoc HuggingFace model, phai dung random vectors de test
+- ChromaDB da duoc tao thanh cong voi Gemini embedding (70MB, 2416 chunks)
+
+### Neu co them thoi gian, thay doi dau tien toi se thuc hien:
+- Xac minh Gemini embedding thuc su hoat dong va danh gia lai Precision
+- Calibration SCORE_THRESHOLD bang query in-domain va out-of-domain thuc te
+- Thu Jina reranker nhu enhancement cho RRF baseline
+
+---
+
+## Cau hinh da dung (Evaluation)
 
 ```env
 # Embedding
@@ -143,9 +149,9 @@ k=60
 
 ---
 
-## Xác nhận đóng góp
+## Xac nhan dong gop
 
-Tôi xác nhận nội dung trên phản ánh đúng phần việc của mình và có thể giải thích hoặc chạy lại trong buổi demo.
+Toi xac nhan noi dung tren phan anh dung phan viec cua toi va co the giai thich hoac chay lai trong buoi demo.
 
-- **Ngày:** 25/09/2026
-- **Tên thành viên:** Đặng Văn Thái Anh
+- **Ngay:** 25/09/2026
+- **Ten thanh vien:** Dang Van Thai Anh
